@@ -1,0 +1,18 @@
+Mining difficulty: 5
+
+Building chain from scratch ... 
+Genesis block: Block [nonce=584076     data=Genesisblokken       prev=0              hash=000006DC7F... ]
+Block 1:       Block [nonce=951327     data=Bla bla              prev=000006DC7F...  hash=0000060B7F... ]
+Block 2:       Block [nonce=424416     data=Ukebla               prev=0000060B7F...  hash=00000FCB7B... ]
+Block 3:       Block [nonce=1359130    data=Dette er gøy         prev=00000FCB7B...  hash=00000808A0... ]
+Block 4:       Block [nonce=498009     data=Halloen              prev=00000808A0...  hash=00000FF165... ]
+Block 5:       Block [nonce=1414561    data=På do                prev=00000FF165...  hash=0000045B0D... ]
+Block 6:       Block [nonce=2028282    data=Bitcoin er gøy       prev=0000045B0D...  hash=0000074992... ]
+Block 7:       Block [nonce=1170801    data=Dette er fremtiden   prev=0000074992...  hash=00000F4F86... ]
+Block 8:       Block [nonce=57209      data=Siste blokken        prev=00000F4F86...  hash=0000062394... ]
+Build successful. 9 blocks added to the chain.
+Mining time in millis: 15725
+
+Validating chain ... 
+Validation successful. The chain is valid!
+Validation time in millis: 0
