@@ -1,10 +1,6 @@
 package no.hvl.dat159
 
 import java.util.ArrayList
-import java.util.Collections
-import java.util.regex.Pattern
-
-import no.hvl.dat159.Block
 
 class Blockchain(
         // getters and setters

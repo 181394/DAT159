@@ -11,21 +11,17 @@ object Main {
     @Throws(IOException::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        /*
-		 * Create a blockchain and a miner, add some blocks and validate the chain.
-		 * You should also System.print out the blocks as soon as the are appended,
-		 * and print out the final validation result. See output.txt for example
-		 * output for a solution to this assignment.
-		 */
         val difficulty = 5
         val dataset = ArrayList(Arrays.asList("lol!", "lolo", "lulz", "ROFL"))
-        println("DIFFICULTY: " + difficulty + "\n\n" + Collections.nCopies(195, "#").joinToString(""))
+
+
+        println("DIFFICULTY: " + difficulty + "\n\n" + "#".repeat(195))
 
         val blockchain = Blockchain(difficulty)
         val m1 = Miner(blockchain)
         for (data in dataset)
             println("Block " + blockchain.sizeOfChain() + ": \t" + m1.createAndMineNewBlock(data))
-        println(Collections.nCopies(195, "#").joinToString(""))
+        println("#".repeat(196))
         println("Validating blockchain...\n\n")
         try {
             Thread.sleep(2000)
