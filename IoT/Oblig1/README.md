@@ -49,3 +49,12 @@ You will be using the following actuators with digital output
 After a certain amount of time in the UNLOCKED state, the system should automatically enter the LOCKED state.
 
 **Extra:** if the user has not pushed two buttons within a certain amount of time in the WAITING state, then system should go to the LOCKED state.
+
+
+## My solution
+
+In my solution I used a breadboard to keep things better organized
+I also made it such that the user has to move slightly while entering the passphrase.
+After the passphrase is correctly entered, the user can press either of the buttons to get the system back to a LOCKED state.
+
+![](assets/Solution.png)
