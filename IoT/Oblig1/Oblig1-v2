@@ -1,0 +1,175 @@
+int red = 13;
+int yellow = 12;
+int green = 11;
+int PIR = 2;
+int b1 = 6;
+int b2 = 5;
+
+int EXIT_TIME = 1500;
+int passphrase[3] = {1, 2, 0};
+
+int state;
+int timer = 0;
+int enteredPassphrase[3] = {0, 0, 0};
+int passIndex = 0;
+
+void setup()
+{
+  state = 1;
+  pinMode(red, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(green, OUTPUT);
+
+  pinMode(b1, INPUT);
+  pinMode(b2, INPUT);
+  pinMode(PIR, INPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  switch (state)
+  {
+  case 1:
+    //red light
+    redSec();
+    //detect motion
+    state = detectMotion();
+    break;
+  case 2:
+    yellowSec();
+    //listen for pass
+    enterPass();
+    //exit after 10 sec?
+    break;
+  case 3:
+    //check pass
+    checkPass();
+  case 4:
+    greenSec();
+    lockSystem();
+  }
+}
+
+void checkPass()
+{
+  if (equals(enteredPassphrase, passphrase))
+    state = 4;
+  else
+  {
+    wrongPass();
+    reset();
+  }
+}
+
+bool equals(int a[], int b[])
+{
+  for (int i = 0; i <= (sizeof(a) / sizeof(a[0])); ++i)
+  {
+    if (a[i] != b[i])
+      return false;
+  }
+
+  return true;
+}
+
+void enterPass()
+{
+  while (passIndex < (sizeof(passphrase) / sizeof(passphrase[0])) - 1)
+  {
+    Serial.println(timer);
+    if (timer++ == EXIT_TIME)
+    {
+      passIndex = (sizeof(passphrase) / sizeof(passphrase[0])) - 1;
+    }
+    if (digitalRead(b1))
+    {
+      enteredPassphrase[passIndex++] = 1;
+      btnPressed();
+    }
+    if (digitalRead(b2))
+    {
+      enteredPassphrase[passIndex++] = 2;
+      btnPressed();
+    }
+  }
+  state = 3;
+}
+
+int detectMotion()
+{
+  if (digitalRead(PIR))
+  {
+    timer = 0;
+    return 2;
+  }
+  else
+    return 1;
+}
+
+void redSec()
+{
+  digitalWrite(green, LOW);
+  digitalWrite(yellow, LOW);
+  digitalWrite(red, HIGH);
+}
+void yellowSec()
+{
+  digitalWrite(green, LOW);
+  digitalWrite(yellow, HIGH);
+  digitalWrite(red, LOW);
+}
+void greenSec()
+{
+  digitalWrite(green, HIGH);
+  digitalWrite(yellow, LOW);
+  digitalWrite(red, LOW);
+}
+
+void btnPressed()
+{
+  digitalWrite(yellow, LOW);
+  delay(300);
+  digitalWrite(yellow, HIGH);
+  delay(200);
+}
+
+void reset()
+{
+  state = 1;
+  passIndex = 0;
+  for (int i = 0; i < (sizeof(enteredPassphrase) / sizeof(enteredPassphrase[0])); ++i)
+  {
+    enteredPassphrase[i] = 0;
+  }
+}
+
+void wrongPass(){
+  digitalWrite(red, 0);
+  digitalWrite(yellow, 0);
+  digitalWrite(green, 0);
+  
+  digitalWrite(red, 1);
+  delay(100);
+  digitalWrite(red, 0);
+  digitalWrite(yellow, 1);
+  delay(100);
+  digitalWrite(yellow, 0);
+  digitalWrite(red, 1);
+  delay(100);
+  digitalWrite(red, 0);
+  digitalWrite(yellow, 1);
+  delay(100);
+  digitalWrite(yellow, 0);
+  digitalWrite(red, 1);
+  delay(100);
+  digitalWrite(red, 0);
+  digitalWrite(yellow, 1);
+  delay(100);
+  digitalWrite(yellow, 0);
+
+}
+
+void lockSystem(){
+  if (digitalRead(b1)||digitalRead(b2)) reset();
+}

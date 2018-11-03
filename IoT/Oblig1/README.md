@@ -54,7 +54,12 @@ After a certain amount of time in the UNLOCKED state, the system should automati
 ## My solution
 
 In my solution I used a breadboard to keep things better organized.
-I also made it such that the user has to move slightly while entering the passphrase. <br>
+I made two different implementations of the problem described above. <br>
+The first works, but it's a bit difficult to simulate properly.
+I also made it such that the user has to move slightly while entering the passphrase. <br> 
+
+The second is in my opinion a much better implementation, because it's very easy to modify. <br>
+
 After the passphrase is correctly entered, the user can press either of the buttons to get the system back to a LOCKED state.
 
 ![](assets/Solution.png)
