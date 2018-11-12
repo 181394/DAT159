@@ -1,3 +1,5 @@
+### This assignment is submitted by Fredrik Mathisen, Kristian Åsnes, Sindre Steinsvik and Preben Haukebøe
+
 ### Week 2: IoT and Publish-Subscribe Middleware
 
 #### Heating Control System
@@ -50,5 +52,3 @@ You will have to implement the following
 
 For approval of the hands-on you will have to briefly demonstrate a working solution during the lectures on Friday (09.11), Monday (11.11.18), or Tuesday (12.11.18)
 
-
-### This assignment is submitted by Fredrik Mathisen, Kristian Åsnes, Sindre Steinsvik and Preben Haukebøe 
