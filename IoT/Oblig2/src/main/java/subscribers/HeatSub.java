@@ -1,3 +1,6 @@
+package subscribers;
+
+import controllers.Room;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -6,11 +9,12 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class Heating implements MqttCallback, Runnable {
+public class HeatSub implements MqttCallback {
 
     private Room room;
 
-    public Heating (Room room)throws MqttException  {
+
+    public HeatSub(Room room)throws MqttException  {
         this.room = room;
 
             String topic = "Heat";
@@ -42,13 +46,8 @@ public class Heating implements MqttCallback, Runnable {
 
     }
 
-    public void write (boolean newvalue) {
-        room.actuate(newvalue);
-    }
-
-    @Override
-    public void run() {
-
+    public void write () {
+        room.toggleHeater();
     }
 
     /**
@@ -64,9 +63,8 @@ public class Heating implements MqttCallback, Runnable {
      * @see MqttCallback#messageArrived(String, MqttMessage)
      */
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-
-        boolean state = Boolean.parseBoolean(String.format("[%s] %s", topic, new String(message.getPayload())).substring(7));
-        this.write(state);
+        if(room.getHeaterState() !=Boolean.parseBoolean(String.format("[%s] %s", topic, new String(message.getPayload())).substring(7)))
+            this.write();
     }
 
     @Override

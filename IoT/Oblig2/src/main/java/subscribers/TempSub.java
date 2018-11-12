@@ -1,27 +1,28 @@
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+package subscribers;
+
+import devices.Display;
+import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class MQTTSubTemperature implements MqttCallback, Runnable {
+public class TempSub implements MqttCallback {
 
-    private String message;
     private Display display;
+    public static void main(String[] args) throws MqttException {
 
-    public MQTTSubTemperature(Display display) throws MqttException {
+        new TempSub(new Display());
 
+    }
+
+    public TempSub(Display display)throws MqttException  {
+        this.display= display;
         String topic = "Temp";
         int qos = 1; // 1 - This client will acknowledge to the Device Gateway that messages are
         // received
         String broker = "tcp://m20.cloudmqtt.com:14470";
-        String clientId = "MQTT_Temperature_SUB";
+        String clientId = "MQTT_Display";
         String username = "qknkzqhj";
         String password = "Mx22MlpCx2K-";
 
-        this.display = display;
 
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
@@ -37,6 +38,9 @@ public class MQTTSubTemperature implements MqttCallback, Runnable {
 
         client.subscribe(topic, qos);
         System.out.println("Subscribed to message");
+
+
+
 
     }
 
@@ -54,37 +58,12 @@ public class MQTTSubTemperature implements MqttCallback, Runnable {
      */
     public void messageArrived(String topic, MqttMessage message) throws Exception {
 
-        String dismessage = String.format("[%s] %s", topic, new String(message.getPayload()));
-
-        display.write(dismessage);
-
-        this.setMessage(new String(message.getPayload()));
-    }
-
-    /**
-     * @see MqttCallback#deliveryComplete(IMqttDeliveryToken)
-     */
-    public void deliveryComplete(IMqttDeliveryToken token) {
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public static void main(String args[]) throws MqttException {
-
-        Display display = new Display();
-
-        new MQTTSubTemperature(display);
-
+        String msg = (String.format("%s", new String(message.getPayload())));
+        this.display.write(msg);
     }
 
     @Override
-    public void run() {
+    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 
     }
 }

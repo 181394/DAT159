@@ -1,15 +1,14 @@
-public class Room {
+package devices;
 
+public class TemperatureSensor {
     private int tempstate;
-    private static double RATE = .0001; // change in temperature per time unit
-
-    private double temperature;
     private long lastsense;
-
-    public Room(int starttemp) {
+    private static double RATE = .0001; // change in temperature per time unit
+    private double temperature;
+    public TemperatureSensor(int startTemp) {
         tempstate = -1;
-        temperature = starttemp;
         lastsense = System.currentTimeMillis();
+        temperature = startTemp;
     }
 
     synchronized public double sense() {
@@ -17,18 +16,19 @@ public class Room {
         long timenow = System.currentTimeMillis();
         long timeinterval = timenow - lastsense;
 
-        temperature = temperature + (RATE * tempstate * timeinterval);
+        temperature += (RATE * tempstate * timeinterval);
 
         return temperature;
+
     }
 
-    synchronized public void actuate(boolean newstate) {
 
-        sense();
-
-        if (newstate)
-            tempstate = 1;
-        else
-            tempstate = -1;
+    public void setTempstate(int tempstate) {
+        this.tempstate = tempstate;
     }
+
+    public double getTemperature() {
+        return sense();
+    }
+
 }
