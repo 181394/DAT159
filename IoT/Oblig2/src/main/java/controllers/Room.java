@@ -37,7 +37,7 @@ public class Room {
         return heater.getState();
     }
 
-   synchronized public double getRoomTemp(){
+    public double getRoomTemp(){
         return tempSensor.getTemperature();
     }
 }
