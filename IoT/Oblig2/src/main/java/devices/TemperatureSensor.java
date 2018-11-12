@@ -1,3 +1,7 @@
+package devices;
+
+import controllers.Room;
+
 public class TemperatureSensor {
 
     private Room room;

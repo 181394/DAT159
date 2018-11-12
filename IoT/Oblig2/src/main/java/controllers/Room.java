@@ -1,8 +1,9 @@
+package controllers;
+
 public class Room {
 
     private int tempstate;
     private static double RATE = .0001; // change in temperature per time unit
-
     private double temperature;
     private long lastsense;
 

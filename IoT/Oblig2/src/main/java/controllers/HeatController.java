@@ -1,7 +1,9 @@
+package controllers;
+
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class Controller implements MqttCallback, Runnable{
+public class HeatController implements MqttCallback, Runnable{
 
     private String subtopic = "Temp";
     private String pubtopic = "Heat";
@@ -19,7 +21,7 @@ public class Controller implements MqttCallback, Runnable{
 
 
 
-    public Controller()throws MqttException{
+    public HeatController()throws MqttException{
         heatstate = false;
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
