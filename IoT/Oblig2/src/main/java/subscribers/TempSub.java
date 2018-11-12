@@ -14,6 +14,7 @@ public class TempSub implements MqttCallback {
     }
 
     public TempSub(Display display)throws MqttException  {
+        this.display= display;
         String topic = "Temp";
         int qos = 1; // 1 - This client will acknowledge to the Device Gateway that messages are
         // received
@@ -57,7 +58,7 @@ public class TempSub implements MqttCallback {
      */
     public void messageArrived(String topic, MqttMessage message) throws Exception {
 
-        String msg = (String.format("[%s] %s", topic, new String(message.getPayload())).substring(7));
+        String msg = (String.format("%s", new String(message.getPayload())));
         this.display.write(msg);
     }
 
