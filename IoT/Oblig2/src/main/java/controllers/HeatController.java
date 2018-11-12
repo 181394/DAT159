@@ -84,6 +84,8 @@ public class HeatController implements MqttCallback, Runnable{
 
 
     private void setHeatstate(boolean state){heatstate = state;}
+
+    @Override
     public void run() {
 
         try {
@@ -130,6 +132,12 @@ public class HeatController implements MqttCallback, Runnable{
 
         publisherClient.disconnect();
 
+    }
+
+    public static void main(String[] args) throws MqttException, InterruptedException {
+        Thread th = new Thread(new HeatController());
+        th.start();
+        th.join();
     }
 
 }

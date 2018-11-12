@@ -1,5 +1,6 @@
 package publishers;
 
+import controllers.Room;
 import devices.TemperatureSensor;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -8,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class MQTTPubTemperature implements Runnable {
+public class TempPub implements Runnable {
 
     private String topic = "Temp";
     private int qos = 1;
@@ -19,18 +20,18 @@ public class MQTTPubTemperature implements Runnable {
 
     private MqttClient publisherClient;
 
-    TemperatureSensor sensor;
+    private Room room;
 
-    public MQTTPubTemperature(TemperatureSensor sensor) {
+    public TempPub(Room room) {
 
-        this.sensor = sensor;
+        this.room = room;
     }
 
     private void publish() throws MqttPersistenceException, MqttException, InterruptedException {
 
         for (int i = 0; i < 20; i++) {
 
-            String temp = String.valueOf(sensor.read());
+            String temp = String.valueOf(room.getRoomTemp());
 
             System.out.println("Publishing message: " + temp);
 

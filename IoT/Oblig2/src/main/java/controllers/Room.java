@@ -1,35 +1,43 @@
 package controllers;
 
-public class Room {
+import devices.Heater;
+import devices.TemperatureSensor;
 
-    private int tempstate;
-    private static double RATE = .0001; // change in temperature per time unit
-    private double temperature;
-    private long lastsense;
+public class Room {
+    private TemperatureSensor tempSensor;
+    private Heater heater;
+
 
     public Room(int starttemp) {
-        tempstate = -1;
-        temperature = starttemp;
-        lastsense = System.currentTimeMillis();
+
+        heater = new Heater();
+        tempSensor = new TemperatureSensor(starttemp);
     }
 
-    synchronized public double sense() {
 
-        long timenow = System.currentTimeMillis();
-        long timeinterval = timenow - lastsense;
 
-        temperature = temperature + (RATE * tempstate * timeinterval);
-
-        return temperature;
+    private void actuate() {
+        if (heater.getState()) {
+            tempSensor.setTempstate(1);
+        } else {
+            tempSensor.setTempstate(-1);
+        }
     }
 
-    synchronized public void actuate(boolean newstate) {
+    synchronized public void toggleHeater(){
+        if (heater.getState()) {
+            heater.setState(false);
+        } else {
+            heater.setState(true);
+        }
+        actuate();
+    }
 
-        sense();
+    public boolean getHeaterState(){
+        return heater.getState();
+    }
 
-        if (newstate)
-            tempstate = 1;
-        else
-            tempstate = -1;
+    public double getRoomTemp(){
+        return tempSensor.getTemperature();
     }
 }
